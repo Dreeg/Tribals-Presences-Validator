@@ -1,11 +1,10 @@
-
 Progetto di Manuel "Dreeg" Felici
 Tribals-Presences-Validator
 ===========================
 
 Validatore di presenze per i forum su tribals con il metodo dei Ringraziamenti
 
-Estrarre la cartella "TVP" dove preferite (ad esempio in C:\Programmi avendo così C:\Programmi\tpv).
+Estrarre la cartella "TPV" dove preferite (ad esempio in C:\Programmi avendo così C:\Programmi\tpv).
 Creare un collegamento di "tpv.exe" dove vi fa più comodo (ad esempio sul Desktop).
 
 Avviate con un doppioclick C:\Programmi\tpv\tpv.exe o il collegamento precedentemente creato.
