@@ -63,13 +63,22 @@ def stampa_presenze():
     for x in elencof:
         print x
 
-def esporta_presenze():
-    filename = "presenze"+datafile()+".txt"
+def esporta_presenze_file():
+    filename = "presenze"+datafile+".txt"
     with open(filename,'w') as f:
         for x in elencof:
             f.write(x+'\n')
     print("\nFile "+filename+" generato con successo!")
-
+    
+def file_presenze_bbcode():
+    app = ''
+    filename = "presenze"+datafile+"-bbcode.txt"
+    for p in elencof:
+        app += "[player]"+str(p)+"[/player], "
+    with open(filename,'w') as f:
+        f.write(app)
+    print("\nFile "+filename+" generato con successo!")
+    
 def presenze():
     data()
     conta_presenze()
@@ -78,7 +87,11 @@ def presenze():
     print("\n")
     s = input("Inserisci 1 se vuoi salvare presenze"+datafile+".txt altrimenti inserisci 0: ")
     if s == 1:
-        esporta_presenze()
+        esporta_presenze_file()
+    s = 0
+    s = input("Inserisci 1 se vuoi salvare presenze"+datafile+"-bbcode.txt altrimenti inserisci 0: ")
+    if s == 1:
+        file_presenze_bbcode()
 
 
 presenze()
