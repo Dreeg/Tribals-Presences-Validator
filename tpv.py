@@ -20,7 +20,7 @@ class TPV:
         self.quadro1.pack(expand=1)
 
         self.saveb = Button(self.quadro1)
-        self.puls1.configure(text = "Salva su File",
+        self.saveb.configure(text = "Salva su File",
                              background="orange", borderwidth=1)
         self.saveb.bind("<Button-1>", self.pulsSave)
         self.saveb.pack(side = BOTTOM)
