@@ -19,11 +19,10 @@ class TPV:
         self.quadro1["background"] = "#CCBA96"
         self.quadro1.pack(expand=1)
 
-        self.saveb = Button(self.quadro1)
-        self.saveb.configure(text = "Salva su File",
-                             background="orange", borderwidth=1)
-        self.saveb.bind("<Button-1>", self.pulsSave)
-        self.saveb.pack(side = BOTTOM)
+        self.savel = Label(self.quadro1, text = "Salva su File",
+                             background="orange")
+        self.savel.bind("<Button-1>", self.pulsSave)
+        self.savel.pack(pady=5, side = BOTTOM)
         self.lelenco = Text(self.quadro1, width=30, height=5)
         self.lelenco.pack(padx=10, pady=5, side= BOTTOM)
 
@@ -69,13 +68,15 @@ class TPV:
         self.puls1["background"] = "green"
 
     def pulsSave(self, evento):
-        filename = "presenze"+datafile+".txt"
-        path = fd.asksaveasfilename(title="Dove Salvare")
+        path = fd.asksaveasfilename(title="Dove Salvare",filetypes=[('text', '*.txt')])
         if len(path) > 0:
+            if path[-4:] != ".txt":
+                path = path+".txt"
             with open(path,'w') as f:
                 for x in elencof:
                     f.write(x+'\n')
-        self.puls1["background"] = "green"
+        self.savel["background"] = "green"
+        self.savel["text"] = "File Salvato!"
             
     def entrydPress(self, evento):
         self.std.set("")
