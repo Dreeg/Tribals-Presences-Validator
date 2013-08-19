@@ -18,7 +18,7 @@ class TPV:
         self.quadro1 = Frame(Genitore)
         self.quadro1.pack(expand=1)
         
-        self.ltitle = Label(self.quadro1, text="Tribals Presence Validator", font=("Lucida", 11 ,"bold"))
+        self.ltitle = Label(self.quadro1, text="Tribals Presences Validator", font=("Lucida", 11 ,"bold"))
         self.ltitle.pack(pady=5)
         self.ldataerror = Label(self.quadro1, text="", fg="red")
         self.ldataerror.pack(pady=5)
