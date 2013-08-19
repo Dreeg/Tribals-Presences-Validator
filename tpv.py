@@ -14,6 +14,7 @@ class TPV:
     def __init__(self, Genitore):
         self.strdata = StringVar()
         self.strdata.set(" gg/mm/aaaa")
+        self.mioGenitore = Genitore
 
         self.quadro1 = Frame(Genitore)
         self.quadro1.pack(expand=1)
@@ -31,11 +32,11 @@ class TPV:
         self.lringr.pack()
         self.tringr = Text(self.quadro1, width=30, height=5)
         self.tringr.bind("<Double-Button-1>", self.tringrDel)
+        self.tringr.bind("<Button-3>", self.tringrPaste)
         self.tringr.pack(padx=10, pady=5)
-        self.bcalc = Button(self.quadro1)
-        self.bcalc.configure(text = "Calcola", background="orange", borderwidth=1)
-        self.bcalc.bind("<Button-1>", self.bcalcPress)
-        self.bcalc.pack(padx=5, pady=7, expand=1, fill="x", side=BOTTOM)
+        self.lcalc = Label(self.quadro1, text="Calcola", background="orange")
+        self.lcalc.bind("<Button-1>", self.lcalcPress)
+        self.lcalc.pack(padx=5, pady=7, expand=1, fill="x", side=BOTTOM)
         
         
         self.quadro2 = Frame(Genitore)
@@ -46,6 +47,7 @@ class TPV:
 	self.sbelenco = Scrollbar(self.quadro2, orient=VERTICAL)
 	self.telenco = Text(self.quadro2, width=30, height=5)
 	self.telenco.bind("<Double-Button-1>", self.telencoDel)
+	self.telenco.bind("<Button-3>", self.copyele)
 	self.telenco.config(yscrollcommand=self.sbelenco.set)
 	self.sbelenco.config(command=self.telenco.yview)
 	self.sbelenco.pack(ipady=10, padx=5, pady=5, side=RIGHT)
@@ -61,8 +63,11 @@ class TPV:
         self.lsavebb = Label(self.quadro3, text = "Copia BB-Code", background="orange")
         self.lsavebb.bind("<Button-1>", self.copybb)
         self.lsavebb.pack(padx=5, pady=5, side=RIGHT)
+        self.lele = Label(self.quadro3, text = "Copia Elenco", background="orange")
+        self.lele.bind("<Button-1>", self.copyele)
+        self.lele.pack(padx=5, pady=5, side=BOTTOM)
 
-    def bcalcPress(self, evento):
+    def lcalcPress(self, evento):
         global datac
         global ringrc
 
@@ -80,9 +85,9 @@ class TPV:
                 self.telenco.insert(END, x)
             
         if dataerror:
-            self.bcalc["background"] = "red"
+            self.lcalc["background"] = "red"
         else:
-            self.bcalc["background"] = "green"
+            self.lcalc["background"] = "green"
             
         if self.lsavebb["background"] == "red" or self.lsavebb["background"] == "green":
             self.lsavebb["background"] = "orange"
@@ -90,15 +95,9 @@ class TPV:
         if self.lsavefile["background"] == "red" or self.lsavefile["background"] == "green":
             self.lsavefile["background"] = "orange"
             self.lsavefile["text"] = "Salva su File"
-
-    def copybb(self, evento):
-        if len(elencof)>0:
-            self.lsavebb["background"] = "green"
-            #self.lsavebb["text"] = "BB-Code copiato!"
-            self.lsavebb["text"] = "Word in Progress ;)"
-        else:
-            self.lsavebb["background"] = "red"
-            self.lsavebb["text"] = "Nulla da copiare"
+        if self.lele["background"] == "red" or self.lele["background"] == "green":
+            self.lele["background"] = "orange"
+            self.lele["text"] = "Copia Elenco"
 
     def lSave(self, evento):
         if len(elencof)>0:
@@ -118,11 +117,47 @@ class TPV:
     def edataPress(self, evento):
         self.strdata.set("")
 
+    def copybb(self, evento):
+        if len(elencof)>0:
+            self.lsavebb["background"] = "green"
+            self.lsavebb["text"] = "BB-Code copiato!"
+            self.mioGenitore.clipboard_clear()
+            self.mioGenitore.clipboard_append(presenze_bbcode())
+            if self.lele["background"] == "green":
+                self.lele["background"] = "orange"
+                self.lele["text"] = "Copia Elenco"
+        else:
+            self.lsavebb["background"] = "red"
+            self.lsavebb["text"] = "Nulla da copiare"
+
+    def copyele(self,evento):
+        if len(elencof)>0:
+            self.lele["background"] = "green"
+            self.lele["text"] = "Elenco copiato!"
+            self.mioGenitore.clipboard_clear()
+            self.mioGenitore.clipboard_append(self.telenco.get('1.0',END))
+            if self.lsavebb["background"] == "green":
+                self.lsavebb["background"] = "orange"
+                self.lsavebb["text"] = "Copia BB-Code"
+        else:
+            self.lele["background"] = "red"
+            self.lele["text"] = "Nulla da copiare"
+                       
+    def tringrPaste(self, evento):
+        text = self.mioGenitore.clipboard_get()
+        self.tringr.delete('1.0', END)
+        self.tringr.insert(END, text)
+        if self.lcalc["background"] == "green":
+            self.lcalc["background"] = "orange"
+
     def tringrDel(self, evento):
         self.tringr.delete('1.0', END)
 
     def telencoDel(self, evento):
         self.telenco.delete('1.0', END)
+        if self.lsavebb["background"] == "green":
+            self.lsavebb["background"] = "orange"
+            self.lsavebb["text"] = "Copia BB-Code"
 
 def data():
     global datai
